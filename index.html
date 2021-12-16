@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>StyleSDF: High-Resolution 3D-Consistent Image and Geometry Generation</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="css/carousel.css" type="text/css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="https://code.iconify.design/1/1.0.6/iconify.min.js"></script>
+  </head>
+  <body>
+
+    <!-- Start Hero -->
+    <section class="hero">
+      <div class="container">
+
+        <div class="hero-body">
+
+          <div class="level">
+            <h1 class="title level-item has-text-centered">StyleSDF: High-Resolution 3D-Consistent Image and Geometry Generation</h1>
+          </div>
+
+          <!-- Authors -->
+          <div class="columns" id="authors">
+              <div class="column has-text-centered">
+                <a href="https://homes.cs.washington.edu/~royorel/"><h2 class="subtitle"><nobr>Roy Or-El</nobr></h2></a>
+                <h3 class="content is-small"><nobr>University of Washington</nobr></h3>
+              </div>
+            <div class="column has-text-centered">
+              <a href="https://roxanneluo.github.io"><h2 class="subtitle"><nobr>Xuan Luo</nobr></h2></a>
+              <h3 class="content is-small"><nobr>University of Washington</nobr></h3>
+            </div>
+            <div class="column has-text-centered">
+              <a href="https://shanmy.github.io/"><h2 class="subtitle"><nobr>Mengyi Shan</nobr></h2></a>
+              <h3 class="content is-small"><nobr>University of Washington</nobr></h3>
+            </div>
+            <div class="column has-text-centered">
+              <a href="https://research.adobe.com/person/eli-shechtman/"><h2 class="subtitle"><nobr>Eli Shechtman</nobr></h2></a>
+              <h3 class="content is-small"><nobr>Adobe Research</nobr></h3>
+            </div>
+            <div class="column has-text-centered">
+              <a href="https://jjparkcv.github.io/"><h2 class="subtitle"><nobr>Jeong Joon Park</nobr></h2></a>
+              <h3 class="content is-small"><nobr>Stanford University</nobr></h3>
+            </div>
+            <div class="column has-text-centered">
+              <a href="https://www.irakemelmacher.com/"><h2 class="subtitle"><nobr>Ira Kemelmacher Shlizerman</nobr></h2></a>
+              <h3 class="content is-small"><nobr>University of Washington</nobr></h3>
+            </div>
+          </div>
+          <!-- End of Authors -->
+
+          <!-- <div class="columns">
+            <div class="column has-text-centered">
+              <a href="https://cvpr2022.thecvf.com/" class="subtitle is-4">CVPR 2022</a>
+            </div>
+          </div> -->
+        </div>
+
+
+
+        <!-- Links -->
+        <div class="hero-foot">
+          <div class="columns is-centered">
+            <div class="column is-two-thirds">
+              <div class="columns is-variable is-2">
+                <div class="column has-text-centered">
+                  <figure class="image is-64x64 container">
+                    <a href="https://arxiv.org/abs/2004.15021"><img src="images/paper_thumbnail.png" alt="paper"></a>
+                  </figure>
+                  <p><a href="https://arxiv.org/abs/2004.15021">Paper & Supplementary</a></p>
+                </div>
+                <div class="column has-text-centered">
+                  <figure class="image is-64x64 container">
+                    <a href="https://github.com/royorel/StyleSDF"><img src="https://uploads-ssl.webflow.com/51e0d73d83d06baa7a00000f/5cae3b53b42ebb3dd4175a82_68747470733a2f2f7777772e69636f6e66696e6465722e636f6d2f646174612f69636f6e732f6f637469636f6e732f313032342f6d61726b2d6769746875622d3235362e706e67.png" alt="github"></a>
+                  </figure>
+                  <p><a href="https://github.com/royorel/StyleSDF">Code - coming soon</a></p>
+                </div>
+                <!-- <div class="column has-text-centered has-text-centered">
+                  <figure class="image is-16by9 container">
+                   <a href="https://youtu.be/RRBpz2zaA-w"><img src="images/slides.jpg" alt="Talk" style="max-height:64px; max-width: 114px"></a>
+                  </figure>
+                  <p class="content"><a href="https://youtu.be/RRBpz2zaA-w">Talk</a> (<a href="https://www.dropbox.com/s/05beidjdeu7tmv8/SIGGRAPH_2020_Presentations%20to%20share.key?dl=0">Slides</a>)</p>
+                </div> -->
+                <!-- <div class="column has-text-centered"> -->
+                  <!-- <figure class="image is-64x64 container">
+			             <a href="supp_website/index.html"><img src="images/supplementary_thumbnail.png" alt="Supplementary"></a>
+                  </figure>
+                  <p class="content is-small"><a href="supp_website/index.html">Supplementary material</a></p> -->
+                <!-- </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End of Links -->
+
+      </div>
+      <!-- End of Container -->
+
+    </section>
+
+
+    <section class="section" id="carousel">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-two-thirds">
+
+            <!-- Start Carousel Section -->
+            <section class="section has-carousel" style="padding: 0">
+              <div id="carousel-results" class="carousel">
+
+                <!-- start carousel item list -->
+                <div class="item-1">
+                  <!-- <figure class="image is-9by16"> -->
+                  <figure class="image is-1by1">
+                    <video class="has-ratio" muted controls loop autoplay>
+                      <source src="videos/carousel/ffhq_no_proj/sample_video_5_elipsoid.mp4" type="video/mp4" width="100%" height="100%">
+                        "Your browser does not support the video tag"
+                    </video>
+                  </figure>
+                  <figure class="image is-1by1">
+                    <video class="has-ratio" muted controls loop autoplay>
+                      <source src="videos/carousel/ffhq_no_proj/sample_depth_video_5_elipsoid.mp4" type="video/mp4" width="100%" height="100%">
+                        "Your browser does not support the video tag"
+                    </video>
+                  </figure>
+                </div>
+
+                <div class="item-2">
+                  <figure class="image is-1by1">
+                    <video class="has-ratio" muted controls loop autoplay>
+                      <source src="videos/carousel/afhq_no_proj/sample_video_1_azim.mp4" type="video/mp4" width="100%" height="100%">
+                        "Your browser does not support the video tag"
+                    </video>
+                  </figure>
+                  <figure class="image is-1by1">
+                    <video class="has-ratio" muted controls loop autoplay>
+                      <source src="videos/carousel/afhq_no_proj/sample_depth_video_1_azim.mp4" type="video/mp4" width="100%" height="100%">
+                        "Your browser does not support the video tag"
+                    </video>
+                  </figure>
+                </div>
+
+                <div class="item-3">
+                  <figure class="image is-1by1">
+                    <video class="has-ratio" muted controls loop autoplay>
+                      <source src="videos/carousel/ffhq_no_proj/sample_video_18_elipsoid.mp4" type="video/mp4" width="100%" height="100%">
+                        "Your browser does not support the video tag"
+                    </video>
+                  </figure>
+                  <figure class="image is-1by1">
+                    <video class="has-ratio" muted controls loop autoplay>
+                      <source src="videos/carousel/ffhq_no_proj/sample_depth_video_18_elipsoid.mp4" type="video/mp4" width="100%" height="100%">
+                        "Your browser does not support the video tag"
+                    </video>
+                  </figure>
+                </div>
+
+                <div class="item-4">
+                  <figure class="image is-1by1">
+                    <video class="has-ratio" muted controls loop autoplay>
+                      <source src="videos/carousel/afhq_no_proj/sample_video_25_elipsoid.mp4" type="video/mp4" width="100%" height="100%">
+                        "Your browser does not support the video tag"
+                    </video>
+                  </figure>
+                  <figure class="image is-1by1">
+                    <video class="has-ratio" muted controls loop autoplay>
+                      <source src="videos/carousel/afhq_no_proj/sample_depth_video_25_elipsoid.mp4" type="video/mp4" width="100%" height="100%">
+                        "Your browser does not support the video tag"
+                    </video>
+                  </figure>
+                </div>
+
+                <div class="item-5">
+                  <figure class="image is-1by1">
+                    <video class="has-ratio" muted controls loop autoplay>
+                      <source src="videos/carousel/ffhq_no_proj/sample_video_27_azim.mp4" type="video/mp4" width="100%" height="100%">
+                        "Your browser does not support the video tag"
+                    </video>
+                  </figure>
+                  <figure class="image is-1by1">
+                    <video class="has-ratio" muted controls loop autoplay>
+                      <source src="videos/carousel/ffhq_no_proj/sample_depth_video_27_azim.mp4" type="video/mp4" width="100%" height="100%">
+                        "Your browser does not support the video tag"
+                    </video>
+                  </figure>
+                </div>
+
+                <div class="item-6">
+                    <figure class="image is-1by1">
+                      <video class="has-ratio" muted controls loop autoplay>
+                        <source src="videos/carousel/afhq_no_proj/sample_video_29_azim.mp4" type="video/mp4" width="100%" height="100%">
+                          "Your browser does not support the video tag"
+                      </video>
+                    </figure>
+                    <figure class="image is-1by1">
+                      <video class="has-ratio" muted controls loop autoplay>
+                        <source src="videos/carousel/afhq_no_proj/sample_depth_video_29_azim.mp4" type="video/mp4" width="100%" height="100%">
+                          "Your browser does not support the video tag"
+                      </video>
+                    </figure>
+                </div>
+
+                <!-- end carousel item list -->
+
+              </div>
+            </section>
+            <!-- End Carousel Section -->
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- <section class="section" id="Overview-Video">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-two-thirds">
+            <h2 class="title is-3">Overview Video</h2>
+            <figure class="image is-16by9">
+              <iframe class="has-ratio" width="560" height="315" src="https://www.youtube.com/embed/5Tia2oblJAg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </figure>
+            <br>
+            <p><a href="https://www.zhihu.com/zvideo/1239496041512525824"><span class="iconify" data-icon="simple-icons:zhihu" data-inline="false"></span></a> Please check <a href="https://www.zhihu.com/zvideo/1239496041512525824">here</a> if you cannot view the video.</p>
+          </div>
+        </div>
+      </div>
+    </section> -->
+
+
+    <section class="section" id="Abstract">
+      <div class="container content">
+        <div class="columns is-centered">
+          <div class="column is-two-thirds has-text-justified">
+            <h2 class="title is-3">Abstract</h2>
+
+            <p>
+              We introduce a high resolution, 3D-consistent image and shape generation technique which we call StyleSDF.
+              Our method is trained on single-view RGB data only, and stands on the shoulders of StyleGAN2 for image generation, while
+              solving two main challenges in 3D-aware GANs: 1) high-resolution, view-consistent generation of the RGB images,
+              and 2) detailed 3D shape. We achieve this by merging a SDF-based 3D representation with a style-based 2D generator.
+              Our 3D implicit network renders low-resolution feature maps, from which the style-based network generates
+              view-consistent, 1024×1024 images. Notably, our SDFbased 3D modeling defines detailed 3D surfaces, leading
+              to consistent volume rendering. Our method shows higher quality results compared to state of the art in terms of visual
+              and geometric quality.
+            </p>
+
+            <img src="images/overview.png">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- <section class="section" id="Press">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-two-thirds content">
+            <h2 class="title is-3">Media</h2>
+            <div class="level">
+              <div class="level-left">
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> -->
+
+    <section class="section" id="Video-Table">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-two-thirds content">
+            <h2 class="title is-3">FFHQ Results</h2>
+
+            <table border="0" style="table-layout: fixed;">
+              <tr>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/ffhq_no_proj/sample_video_1_azim.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/ffhq_no_proj/sample_depth_video_1_azim.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/ffhq_no_proj/sample_video_5_elipsoid.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/ffhq_no_proj/sample_depth_video_5_elipsoid.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+              </tr>
+              <tr>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/ffhq_no_proj/sample_video_7_elipsoid.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/ffhq_no_proj/sample_depth_video_7_elipsoid.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/ffhq_no_proj/sample_video_13_azim.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/ffhq_no_proj/sample_depth_video_13_azim.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+              </tr>
+              <tr>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/ffhq_no_proj/sample_video_15_elipsoid.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/ffhq_no_proj/sample_depth_video_15_elipsoid.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/ffhq_no_proj/sample_video_18_elipsoid.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/ffhq_no_proj/sample_depth_video_18_elipsoid.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+              </tr>
+              <tr>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/ffhq_no_proj/sample_video_22_azim.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/ffhq_no_proj/sample_depth_video_22_azim.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/ffhq_no_proj/sample_video_23_elipsoid.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/ffhq_no_proj/sample_depth_video_23_elipsoid.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+              </tr>
+              <tr>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/ffhq_no_proj/sample_video_24_azim.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/ffhq_no_proj/sample_depth_video_24_azim.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/ffhq_no_proj/sample_video_27_azim.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/ffhq_no_proj/sample_depth_video_27_azim.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+              </tr>
+            </table>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="Video-Table">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-two-thirds content">
+            <h2 class="title is-3">AFHQ Results</h2>
+
+            <table border="0" style="table-layout: fixed;">
+              <tr>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/afhq_no_proj/sample_video_11_elipsoid.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/afhq_no_proj/sample_depth_video_11_elipsoid.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/afhq_no_proj/sample_video_1_azim.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/afhq_no_proj/sample_depth_video_1_azim.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+              </tr>
+              <tr>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/afhq_no_proj/sample_video_2_azim.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/afhq_no_proj/sample_depth_video_2_azim.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/afhq_no_proj/sample_video_5_azim.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/afhq_no_proj/sample_depth_video_5_azim.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+              </tr>
+              <tr>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/afhq_no_proj/sample_video_14_elipsoid.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/afhq_no_proj/sample_depth_video_14_elipsoid.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/afhq_no_proj/sample_video_17_elipsoid.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/afhq_no_proj/sample_depth_video_17_elipsoid.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+              </tr>
+              <tr>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/afhq_no_proj/sample_video_19_elipsoid.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/afhq_no_proj/sample_depth_video_19_elipsoid.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/afhq_no_proj/sample_video_25_elipsoid.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/afhq_no_proj/sample_depth_video_25_elipsoid.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+              </tr>
+              <tr>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/afhq_no_proj/sample_video_29_azim.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/afhq_no_proj/sample_depth_video_29_azim.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/afhq_no_proj/sample_video_30_azim.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+                <td halign="center" style="word-wrap: break-word;" valign="top">
+                  <video autoplay="" controls="" loop="" muted="" style="width:400px">
+                    <source height="100%" src="videos/results/afhq_no_proj/sample_depth_video_30_azim.mp4" type="video/mp4" width="100%"><br>
+                  </video>
+                </td>
+              </tr>
+            </table>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="Video-Table">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-two-thirds content">
+            <h2 class="title is-3">FFHQ Results with Noise Projection - Coming Soon...</h2>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="Video-Table">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-two-thirds content">
+            <h2 class="title is-3">AFHQ Results with Noise Projection - Coming Soon...</h2>
+
+        </div>
+      </div>
+    </section>
+
+
+    <section class="section" id="BibTeX">
+      <div class="container content">
+        <div class="columns is-centered">
+          <div class="column is-two-thirds has-text-justified">
+            <h2 class="titile">BibTeX</h2>
+              <pre><code>@article{orel2021styleSDF,
+  author    = {Or-El, Roy and
+               Luo, Xuan and
+               Shan, Mengyi and
+               Shechtman, Eli and
+               Park, Jeong Joon and
+               Kemelmacher-Shlizerman, Ira},
+  title     = {StyleSDF: High-Resolution 3D-Consistent Image and Geometry Generation},
+  journal={arXiv preprint arXiv:2112.},
+  year={2021}
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/js/bulma-carousel.min.js"></script>
+    <script>
+    bulmaCarousel.attach('#carousel-results', {
+      slidesToScroll: 1,
+      slidesToShow: 3,
+      infinite: true,
+      autoplay: true,
+      autoplaySpeed: 5000,
+    });
+    </script>
+
+  </body>
+</html>
